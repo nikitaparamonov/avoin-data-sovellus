@@ -19,6 +19,7 @@ const Scoreboard = () => {
 	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState('')
 	const [selectedMatch, setSelectedMatch] = useState(null)
+    const [showPastMatches, setShowPastMatches] = useState(false)
 
 	const fetchMatches = async (leagueCode) => {
 		setLoading(true)
@@ -39,30 +40,54 @@ const Scoreboard = () => {
 		fetchMatches(selectedLeague)
 	}, [selectedLeague])
 
+	const now = new Date()
+	const oneWeekAgo = new Date(now)
+	oneWeekAgo.setDate(now.getDate() - 7)
+
+	const filteredMatches = matches.filter((match) => {
+		const matchDate = new Date(match.date)
+		if (showPastMatches) {
+			return matchDate < now && matchDate >= oneWeekAgo
+		} else {
+			return matchDate >= now
+		}
+	})
+
 	return (
 		<div>
-			<h2>Ottelut</h2>
-
-			<label htmlFor="league">Valitse liiga: </label>
-			<select id="league" value={selectedLeague} onChange={(e) => setSelectedLeague(e.target.value)}>
-				{leagues.map((l) => (
-					<option key={l.code} value={l.code}>
-						{l.name}
-					</option>
-				))}
-			</select>
+			<h2>
+				<label htmlFor="league">Valitse liiga: </label>
+			</h2>
+			<div className="select-toggle-menu">
+				<div className="custom-select">
+					<select id="league" value={selectedLeague} onChange={(e) => setSelectedLeague(e.target.value)}>
+						{leagues.map((l) => (
+							<option key={l.code} value={l.code}>
+								{l.name}
+							</option>
+						))}
+					</select>
+				</div>
+				<div className="toggle-switch">
+					<input
+						type="checkbox"
+						id="matchToggle"
+						checked={showPastMatches}
+						onChange={() => setShowPastMatches(!showPastMatches)}
+					/>
+					<label htmlFor="matchToggle" className="switch-label"></label>
+				</div>
+			</div>
 
 			{loading && <p>Ladataan otteluita...</p>}
 			{error && <p style={{ color: 'red' }}>{error}</p>}
-			{!loading && matches.length === 0 && <p>Ei otteluita saatavilla.</p>}
+			{!loading && filteredMatches.length === 0 && <p>Ei otteluita saatavilla.</p>}
 
-			<div>
-				{matches.map((match) => (
-					<MatchCard
-						key={match.id}
-						match={match}
-						onClick={(m) => setSelectedMatch(m)}
-					/>
+			<div className="matches-list">
+				{filteredMatches.map((match) => (
+					<div key={match.id} onClick={() => setSelectedMatch(match)}>
+						<MatchCard match={match} />
+					</div>
 				))}
 			</div>
 

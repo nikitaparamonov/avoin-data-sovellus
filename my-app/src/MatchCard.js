@@ -29,19 +29,19 @@ const MatchCard = ({ match, onClick }) => {
 			style={{ borderLeft: `5px solid ${borderColor}` }}
 			onClick={clickHandler}
 		>
-			<div className="team">
-				<img src={away.team.logo} alt={away.team.displayName} style={{ marginRight: '10px' }} />
-				<span className="team-name">{away.team.displayName}</span>
-			</div>
-
-			<div className="score">
-				{away.score} : {home.score}
-				{isLive && <span className="live-indicator">● LIVE</span>}
-			</div>
-
 			<div className="team" style={{ justifyContent: 'flex-end' }}>
 				<span className="team-name">{home.team.displayName}</span>
 				<img src={home.team.logo} alt={home.team.displayName} style={{ marginLeft: '10px' }} />
+			</div>
+
+			<div className="score">
+				{home.score} : {away.score}
+				{isLive && <span className="live-indicator">● LIVE</span>}
+			</div>
+
+			<div className="team">
+				<img src={away.team.logo} alt={away.team.displayName} style={{ marginRight: '10px' }} />
+				<span className="team-name">{away.team.displayName}</span>
 			</div>
 
 			<div className="match-info">

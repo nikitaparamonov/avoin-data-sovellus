@@ -1,9 +1,9 @@
 .match-card {
-    display: flex;
-    align-items: center;
+	display: flex;
+	align-items: center;
 	cursor: pointer;
 	transition: box-shadow 0.2s ease;
-	background-color: rgb(244, 244, 244);
+	background-color: rgb(231, 227, 241);
 	border-radius: 6px;
 	padding: 1rem;
 	margin: 1rem 0;
