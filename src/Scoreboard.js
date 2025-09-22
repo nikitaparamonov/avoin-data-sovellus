@@ -25,7 +25,7 @@ const Scoreboard = () => {
 		setLoading(true)
 		setError('')
 		try {
-			const response = await fetch(`http://site.api.espn.com/apis/site/v2/sports/soccer/${leagueCode}/scoreboard`)
+			const response = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/${leagueCode}/scoreboard`)
 			const data = await response.json()
 			setMatches(data.events || [])
 		} catch (err) {
